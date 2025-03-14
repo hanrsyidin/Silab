@@ -24,10 +24,12 @@ class AuthenticatedSessionController extends Controller
      */
     public function store(LoginRequest $request): RedirectResponse
     {
+        // Mengambil informasi authentikasi
         $request->authenticate();
 
         $request->session()->regenerate();
 
+        // Mengambil kolom role dari tabel users
         $authUserRole = Auth::user()->role;
 
         if($authUserRole == 0){

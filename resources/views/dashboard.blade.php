@@ -12,6 +12,12 @@
                     {{ __("You're logged in!") }}
                 </div>
             </div>
+
+            
+            {{-- Tambahkan tabel laboratorium --}}
+            <div class="mt-6 bg-white dark:bg-gray-800 p-6 rounded-lg shadow">
+                <x-laboratory-table />
+            </div>
         </div>
     </div>
 </x-app-layout>

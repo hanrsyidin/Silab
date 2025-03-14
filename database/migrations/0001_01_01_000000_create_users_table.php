@@ -16,7 +16,7 @@ return new class extends Migration
             $table->string('name');
             $table->string('password');
             $table->string('nim')->unique();
-            $table->tinyInteger('role')->default('0');
+            $table->tinyInteger('role')->default('1');
             $table->rememberToken();
             $table->timestamps();
         });
