@@ -1,9 +1,11 @@
 <x-guest-layout>
     <!-- Session Status -->
     <x-auth-session-status class="mb-4" :status="session('status')" />
+    <div>
+        <h1 class="text-yellow-500 text-center text-xl font-semibold mb-6" justify-center>SISTEM INFORMASI LAB</h1>
 
     <form method="POST" action="{{ route('login') }}">
-        @csrf
+        @csrf 
 
         <!-- Email Address -->
         <div>
