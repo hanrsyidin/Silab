@@ -20,5 +20,12 @@ class AdminSeeder extends Seeder
             'nim'      => 'adminUser', // sesuaikan NIM jika diperlukan
             'role'     => 0, // role admin
         ]);
+
+        User::create([
+            'name'     => 'Mimin',
+            'password' => Hash::make('mimin123'), // ganti password sesuai kebutuhan
+            'nim'      => 'miminUser', // sesuaikan NIM jika diperlukan
+            'role'     => 0, // role admin
+        ]);
     }
 }
