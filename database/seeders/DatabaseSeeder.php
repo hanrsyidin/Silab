@@ -17,7 +17,14 @@ class DatabaseSeeder extends Seeder
 
         User::factory()->create([
             'name' => 'Test User',
-            'email' => 'test@example.com',
+            'nim'  => '1234567890'
+        ]);
+
+        $this->call([
+            AdminSeeder::class,
+            UserSeeder::class,
+            LaboratoriesTableSeeder::class,
         ]);
     }
+
 }
