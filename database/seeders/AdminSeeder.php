@@ -19,6 +19,7 @@ class AdminSeeder extends Seeder
             'password' => Hash::make('admin123'), // ganti password sesuai kebutuhan
             'nim'      => 'adminUser', // sesuaikan NIM jika diperlukan
             'role'     => 0, // role admin
-        ]);
+        ],
+    );
     }
 }
