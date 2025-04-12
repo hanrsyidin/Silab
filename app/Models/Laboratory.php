@@ -9,11 +9,15 @@ class Laboratory extends Model
 {
     use HasFactory;
 
-    protected $table = 'laboratories'; // Nama tabel
-
     protected $fillable = [
         'lab_name',
         'schedule',
         'is_available',
     ];
+
+    // Tambahkan relasi ke Booking
+    public function bookings()
+    {
+        return $this->hasMany(Booking::class, 'laboratory_id');
+    }
 }
