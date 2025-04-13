@@ -18,9 +18,9 @@
     <body class="font-sans antialiased">
         <div class="min-h-screen bg-gray-100 dark:bg-gray-900"
         style="background-image: url('/Background.png'); background-size: cover; background-position: center;">
-            @include('layouts.navigation')
-            {{-- === Sidebar Slider Mulai === --}}
-        <div x-data="{ openSidebar: false }">
+            @include('layouts.navigation') 
+            <div x-data="{ openSidebar: false, showButton: true }" 
+            x-init="window.addEventListener('scroll', () => { if (window.scrollY > 50) { showButton = false } else { showButton = true } })">
             <!-- Tombol Buka Sidebar -->
             <button 
                 class="fixed top-4 left-4 z-50" 
@@ -50,7 +50,6 @@
                 @click="openSidebar = false"
             ></div>
         </div>
-        {{-- === Sidebar Slider Selesai === --}}
 
             <!-- Page Heading -->
             @isset($header)
