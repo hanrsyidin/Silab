@@ -19,6 +19,38 @@
         <div class="min-h-screen bg-gray-100 dark:bg-gray-900"
         style="background-image: url('/Background.png'); background-size: cover; background-position: center;">
             @include('layouts.navigation')
+            {{-- === Sidebar Slider Mulai === --}}
+        <div x-data="{ openSidebar: false }">
+            <!-- Tombol Buka Sidebar -->
+            <button 
+                class="fixed top-4 left-4 z-50" 
+                @click="openSidebar = true"
+                x-show="!openSidebar"
+                x-transition
+            >
+            <x-application-logo class="block h-9 w-auto fill-current text-gray-800 dark:text-gray-200" />
+            </button>
+
+            <!-- Sidebar -->
+            <div 
+                class="fixed top-0 left-0 w-64 h-full bg-gray-800 text-white p-6 shadow-lg z-40 transform transition-transform duration-300"
+                :class="{ '-translate-x-full': !openSidebar, 'translate-x-0': openSidebar }">
+                <ul class="space-y-2">
+                    <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
+                        {{ __('Dashboard') }}
+                    </x-nav-link>
+                </ul>
+            </div>
+
+            <!-- Overlay -->
+            <div 
+                class="fixed inset-0 bg-black bg-opacity-50 z-30" 
+                x-show="openSidebar"
+                x-transition
+                @click="openSidebar = false"
+            ></div>
+        </div>
+        {{-- === Sidebar Slider Selesai === --}}
 
             <!-- Page Heading -->
             @isset($header)
