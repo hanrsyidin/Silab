@@ -1,4 +1,5 @@
-<div class="p-6" x-data="labStatusManager()">
+<div class="p-6" x-data="labStatusManager()" x-init="init()">
+    <input type="hidden" id="showPendingFlag" value="{{ session('showPendingModal') ? '1' : '0' }}">
     <table class="table-auto w-full text-white border-collapse">
         <thead class="bg-gray-800">
             <tr>
@@ -59,7 +60,7 @@
             <h3 class="text-xl font-bold mb-4 text-yellow-400">Form Peminjaman Lab</h3>
 
             <form action="{{ route('bookings.store') }}" method="POST" class="space-y-4" 
-                @submit.prevent="showPendingModal = true; showBorrowModal = false; setPending(selectedLabId)">
+                @submit="showPendingModal = true; showBorrowModal = false; setPending(selectedLabId)">
                 @csrf
                 <input type="hidden" name="laboratory_id" x-model="selectedLabId">
                 <input type="hidden" name="schedule" x-model="selectedLabSchedule">
@@ -90,7 +91,6 @@
         <div class="bg-gray-800 w-96 p-6 rounded-lg shadow-lg text-center">
             <h3 class="text-xl font-bold mb-4 text-blue-400">Menunggu Balasan Admin</h3>
             <p class="text-white">Permintaan peminjaman Anda sedang diproses oleh admin.</p>
-            <!-- <button class="bg-gray-500 text-white px-4 py-2 rounded font-semibold w-full" @click="showPendingModal = false">OK</button> -->
         </div>
     </div>
 </div>
@@ -102,12 +102,17 @@
             showPendingModal: false,
             selectedLabId: null,
             selectedLabSchedule: '',
-            bookingStatus: null,
             pendingLabs: {},
 
             setPending(labId) {
                 this.pendingLabs[labId] = true;
-                this.$nextTick(() => {}); // Pastikan tampilan terupdate langsung
+            },
+
+            init() {
+                const showPendingFlag = document.getElementById('showPendingFlag')?.value;
+                if (showPendingFlag === '1') {
+                    this.showPendingModal = true;
+                }
             }
         };
     }

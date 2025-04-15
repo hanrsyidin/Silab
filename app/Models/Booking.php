@@ -24,4 +24,9 @@ class Booking extends Model
     {
         return $this->belongsTo(Laboratory::class, 'laboratory_id');
     }
+
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
 }

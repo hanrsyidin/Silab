@@ -5,7 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\BookingController;
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('auth/login');
 });
 
 Route::post('/dashboard', [BookingController::class, 'store'])->name('bookings.store');
@@ -15,8 +15,6 @@ Route::post('/admin/dashboard', [BookingController::class, 'store'])->name('book
 Route::get('/dashboard', function () {
     return view('dashboard');
 })->middleware(['auth', 'verified', 'rolemanager:customer'])->name('dashboard');
-
-
 
 Route::get('/admin/dashboard', function () {
     return view('admin');
@@ -34,5 +32,13 @@ Route::middleware('auth')->group(function () {
 Route::post('/admin/dashboard', [BookingController::class, 'restoreAvailability'])
     ->middleware(['auth', 'rolemanager:admin'])
     ->name('bookings.restore');
+
+// dummy route
+Route::prefix('admin')->middleware(['auth'])->group(function () {
+    Route::get('/schedule', fn () => view('admin.schedule'))->name('admin.schedule');
+    Route::get('/bookings', fn () => view('admin.bookings'))->name('admin.bookings');
+    Route::get('/history', fn () => view('admin.history'))->name('admin.history');
+    Route::get('/students', fn () => view('admin.students'))->name('admin.students');
+});
 
 require __DIR__.'/auth.php';

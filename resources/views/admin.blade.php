@@ -5,9 +5,31 @@
         </h2>
     </x-slot>
 
-            {{-- Tambahkan tabel laboratorium --}}
+    <div class="flex" x-data="{ activeMenu: 'schedule' }"> <!-- State activeMenu -->
+
+        {{-- Sidebar Admin --}}
+        <x-admin.sidebar-admin/>
+
+        {{-- Konten Dinamis Berdasarkan Menu --}}
+        <div class="flex-1 p-6">
             <div class="mt-6 bg-white dark:bg-gray-800 p-6 rounded-lg shadow">
-                <x-laboratory-table />
+                <template x-if="activeMenu === 'schedule'">
+                    <div>
+                        <x-laboratory-table />
+                    </div>
+                </template>
+
+                <template x-if="activeMenu === 'bookings'">
+                    <x-borrowing-requests />
+                </template>
+
+                <template x-if="activeMenu === 'history'">
+                    <div class="text-white">Komponen untuk Riwayat Pinjaman (belum dibuat)</div>
+                </template>
+
+                <template x-if="activeMenu === 'students'">
+                    <div class="text-white">Komponen untuk Registrasi Mahasiswa (belum dibuat)</div>
+                </template>
             </div>
         </div>
     </div>

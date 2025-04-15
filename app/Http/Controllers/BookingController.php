@@ -9,6 +9,16 @@ use Illuminate\Support\Facades\Auth;
 
 class BookingController extends Controller
 {
+
+    // public function index()
+    // {
+    //     // Ambil data booking yang disetujui untuk contoh modal (optional)
+    //     $customData = Booking::with('user', 'laboratory')->latest()->first();
+
+    //     // Render view admin dan lempar data ke komponen
+    //     return view('admin', compact('customData'));
+    // }
+
     // Menyimpan pengajuan peminjaman laboratorium
     public function store(Request $request)
     {
@@ -43,42 +53,7 @@ class BookingController extends Controller
 
         return redirect()->back()->with('success', 'Peminjaman berhasil diajukan. Menunggu balasan admin.');
     }
-
-    // Admin menyetujui peminjaman
-    public function approve($id)
-    {
-        $booking = Booking::findOrFail($id);
-
-        // Cek apakah sudah diproses
-        if ($booking->response_admin !== null) {
-            return redirect()->back()->with('error', 'Peminjaman sudah diproses.');
-        }
-
-        // Setujui peminjaman
-        $booking->update(['response_admin' => 1]);
-
-        return redirect()->back()->with('success', 'Peminjaman telah disetujui.');
-    }
-
-    // Admin menolak peminjaman
-    public function reject($id)
-    {
-        $booking = Booking::findOrFail($id);
-
-        // Cek apakah sudah diproses
-        if ($booking->response_admin !== null) {
-            return redirect()->back()->with('error', 'Peminjaman sudah diproses.');
-        }
-
-        // Tolak peminjaman
-        $booking->update(['response_admin' => 0]);
-
-        // Kembalikan status laboratorium menjadi available
-        $booking->laboratory->update(['is_available' => true]);
-
-        return redirect()->back()->with('error', 'Peminjaman ditolak.');
-    }
-
+    
     // Mengembalikan laboratorium menjadi tersedia (jika sudah selesai digunakan)
     public function restoreAvailability(Request $request)
     {
@@ -102,4 +77,23 @@ class BookingController extends Controller
 
         return redirect()->back()->with('success', 'Laboratorium berhasil dikembalikan sebagai tersedia.');
     }
+
+    public function accept($id)
+    {
+        $booking = Booking::findOrFail($id);
+        $booking->response_admin = 1; // Diterima
+        $booking->save();
+    
+        return redirect()->back()->with('success', 'Peminjaman diterima.');
+    }
+    
+    public function reject($id)
+    {
+        $booking = Booking::findOrFail($id);
+        $booking->response_admin = 0; // Ditolak
+        $booking->save();
+    
+        return redirect()->back()->with('error', 'Peminjaman ditolak.');
+    }
+    
 }
