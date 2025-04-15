@@ -9,43 +9,52 @@
             </tr>
         </thead>
         <tbody>
-            @foreach($laboratories as $lab)
-                @php
-                    $booking = $lab->bookings()->latest()->first();
-                @endphp
-
-                <tr>
-                    <td class="px-4 py-2 bg-gray-900 border-b border-gray-700 text-center align-middle">
-                        {{ $lab->lab_name }}
-                    </td>
-                    <td class="px-4 py-2 bg-gray-800 border-b border-gray-700 text-center align-middle">
-                        {{ $lab->schedule }}
-                    </td>
-                    <td class="px-4 py-2 bg-gray-900 border-b border-gray-700 text-center align-middle">
-                        <template x-if="pendingLabs[{{ $lab->id }}]">
-                            <span class="bg-blue-500 text-white px-3 py-1 rounded">Pending</span>
-                        </template>
-
-                        <template x-if="!pendingLabs[{{ $lab->id }}]">
-                            @if($lab->is_available)
-                                <button
-                                    class="bg-yellow-500 text-black px-3 py-1 rounded"
-                                    @click="showBorrowModal = true; selectedLabId = {{ $lab->id }}; selectedLabSchedule = '{{ $lab->schedule }}'"
-                                >
-                                    Available
-                                </button>
-                            @else
-                                @if($booking && $booking->response_admin === null)
-                                    <span class="bg-blue-500 text-white px-3 py-1 rounded">Pending</span>
-                                @elseif($booking && $booking->response_admin === 1)
-                                    <span class="bg-green-500 text-white px-3 py-1 rounded">Approved</span>
+            @foreach($groupedLabs as $labName => $labs)
+                @foreach($labs as $index => $lab)
+                    @php
+                        $booking = $lab->bookings()->latest()->first();
+                    @endphp
+        
+                    <tr>
+                        {{-- RUANG - hanya ditampilkan sekali per grup --}}
+                        @if($index === 0)
+                            <td class="px-4 py-2 bg-gray-900 border-b border-gray-700 text-center align-middle" rowspan="{{ $labs->count() }}">
+                                {{ $labName }}
+                            </td>
+                        @endif
+        
+                        {{-- JAM --}}
+                        <td class="px-4 py-2 bg-gray-800 border-b border-gray-700 text-center align-middle">
+                            {{ $lab->schedule }}
+                        </td>
+        
+                        {{-- STATUS --}}
+                        <td class="px-4 py-2 bg-gray-900 border-b border-gray-700 text-center align-middle">
+                            <template x-if="pendingLabs[{{ $lab->id }}]">
+                                <span class="bg-blue-500 text-white px-3 py-1 rounded">Pending</span>
+                            </template>
+        
+                            <template x-if="!pendingLabs[{{ $lab->id }}]">
+                                @if($lab->is_available)
+                                    <button
+                                        class="bg-yellow-500 text-black px-3 py-1 rounded"
+                                        @click="showBorrowModal = true; selectedLabId = {{ $lab->id }}; selectedLabSchedule = '{{ $lab->schedule }}'"
+                                    >
+                                        Available
+                                    </button>
                                 @else
-                                    <span class="bg-red-500 text-white px-3 py-1 rounded">Rejected</span>
+                                    @if($booking && $booking->response_admin === null)
+                                        <span class="bg-blue-500 text-white px-3 py-1 rounded">Pending</span>
+                                    @elseif($booking && $booking->response_admin === 1)
+                                        <span class="bg-green-500 text-white px-3 py-1 rounded">Approved</span>
+                                    @else
+                                        <span class="bg-red-500 text-white px-3 py-1 rounded">Rejected</span>
+                                    @endif
                                 @endif
-                            @endif
-                        </template>
-                    </td>
-                </tr>
+                            </template>
+                        </td>
+                    </tr>
+                @endforeach
             @endforeach
         </tbody>
     </table>
