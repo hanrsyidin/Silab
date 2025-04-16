@@ -20,7 +20,7 @@ Route::get('/admin/dashboard', function () {
     return view('admin');
 })->middleware(['auth', 'verified', 'rolemanager:admin'])->name('admin');
 
-Route::post('/admin/dashboard/{id}/approve', [BookingController::class, 'approve'])->name('bookings.approve');
+Route::post('/admin/dashboard/{id}/accept', [BookingController::class, 'accept'])->name('bookings.accept');
 Route::post('/admin/dashboard/{id}/reject', [BookingController::class, 'reject'])->name('bookings.reject');
 
 Route::middleware('auth')->group(function () {

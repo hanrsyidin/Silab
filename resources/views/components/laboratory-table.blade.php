@@ -1,7 +1,3 @@
-@php
-    $groupedLabs = $laboratories->groupBy('lab_name');
-@endphp
-
 <div class="p-6" x-data="labStatusManager()" x-init="init()">
     <input type="hidden" id="showPendingFlag" value="{{ session('showPendingModal') ? '1' : '0' }}">
     <table class="table-auto w-full text-white border-collapse">
