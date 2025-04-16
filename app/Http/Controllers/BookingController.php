@@ -51,7 +51,8 @@ class BookingController extends Controller
         // Ubah status laboratorium menjadi tidak tersedia
         $laboratory->update(['is_available' => false]);
 
-        return redirect()->back()->with('success', 'Peminjaman berhasil diajukan. Menunggu balasan admin.');
+        session()->flash('showPendingModal', true);
+        return redirect()->route('dashboard');        
     }
     
     // Mengembalikan laboratorium menjadi tersedia (jika sudah selesai digunakan)
