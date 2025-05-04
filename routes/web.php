@@ -3,6 +3,8 @@
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\BookingController;
+use App\Http\Controllers\StudentAuthController;
+use Illuminate\Support\Facades\Auth;
 
 Route::get('/', function () {
     return view('auth/login');
@@ -10,9 +12,28 @@ Route::get('/', function () {
 
 Route::post('/dashboard', [BookingController::class, 'store'])->name('bookings.store');
 
+Route::post('/student/register', [StudentAuthController::class, 'register'])->name('student.register');
+
 Route::post('/admin/dashboard', [BookingController::class, 'store'])->name('bookings.store');
 
+// Route::post('/admin/dashboard', [BookingController::class, 'restoreAvailability'])
+//     ->middleware(['auth', 'rolemanager:admin'])
+//     ->name('bookings.restore');
+
+
 Route::get('/dashboard', function () {
+    $latest = \App\Models\Booking::where('user_id', Auth::user()->id)->latest()->first();
+
+    if ($latest && session()->missing('booking_checked')) {
+        session()->put('booking_checked', true); // Biar nggak muncul terus
+
+        if ($latest->response_admin === 1) {
+            session()->flash('toast', ['type' => 'success', 'message' => 'Peminjamanmu telah disetujui!']);
+        } elseif ($latest->response_admin === 0) {
+            session()->flash('toast', ['type' => 'error', 'message' => 'Peminjamanmu ditolak. Silakan ajukan kembali.']);
+        }
+    }
+
     return view('dashboard');
 })->middleware(['auth', 'verified', 'rolemanager:customer'])->name('dashboard');
 

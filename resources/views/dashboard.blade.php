@@ -12,4 +12,16 @@
             <x-laboratory-table />
         </div>
     </div>
+
+    @if(session('toast'))
+        <div 
+            class="fixed bottom-4 right-4 bg-{{ session('toast.type') === 'success' ? 'green' : 'red' }}-500 text-white px-6 py-3 rounded shadow-lg z-50 transition"
+            x-data="{ show: true }"
+            x-init="setTimeout(() => show = false, 3000)"
+            x-show="show"
+            x-transition
+        >
+            {{ session('toast.message') }}
+        </div>
+    @endif
 </x-app-layout>

@@ -24,11 +24,11 @@
                 </template>
 
                 <template x-if="activeMenu === 'history'">
-                    <div class="text-white">Komponen untuk Riwayat Pinjaman (belum dibuat)</div>
+                    <x-booking-history />
                 </template>
 
                 <template x-if="activeMenu === 'students'">
-                    <div class="text-white">Komponen untuk Registrasi Mahasiswa (belum dibuat)</div>
+                    <x-student-registration-form />
                 </template>
             </div>
         </div>

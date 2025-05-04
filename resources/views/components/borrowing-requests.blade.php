@@ -15,7 +15,7 @@
 
         <div class="mt-4 flex gap-2">
             {{-- Tombol Terima --}}
-            <form method="POST" action="{{ url('/admin/bookings/' . $booking->id . '/accept') }}">
+            <form method="POST" action="{{ url('/admin/dashboard/' . $booking->id . '/accept') }}">
                 @csrf
                 <button type="submit" class="bg-yellow-400 px-4 py-2 rounded text-black hover:bg-yellow-300">
                     Terima
@@ -23,7 +23,7 @@
             </form>
 
             {{-- Tombol Tolak --}}
-            <form method="POST" action="{{ url('/admin/bookings/' . $booking->id . '/reject') }}">
+            <form method="POST" action="{{ url('/admin/dashboard/' . $booking->id . '/reject') }}">
                 @csrf
                 <button type="submit" class="bg-red-600 px-4 py-2 rounded text-white hover:bg-red-500">
                     Tolak
