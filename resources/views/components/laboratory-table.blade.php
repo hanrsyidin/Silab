@@ -64,14 +64,14 @@
     </table>
 
     <!-- Modal Form Peminjaman (untuk user) -->
-    <div 
+    <div
         class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50"
         x-show="showBorrowModal"
         x-transition
     >
-        <div 
-            class="bg-gray-800 text-white p-6 rounded-lg w-96 relative" 
-            @click.away="showBorrowModal = false" 
+        <div
+            class="bg-gray-800 text-white p-6 rounded-lg w-96 relative"
+            @click.away="showBorrowModal = false"
             @click.stop
         >
             <h3 class="text-xl font-bold mb-4 text-yellow-400">Form Peminjaman Lab</h3>
@@ -97,16 +97,26 @@
 
     <!-- Modal "Menunggu Persetujuan Admin" (untuk user) -->
     <template x-if="showPendingModal">
-        <div 
+        <div
             class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50"
             x-transition
         >
-            <div class="bg-gray-800 w-96 p-6 rounded-lg shadow-lg text-center">
+            <div class="relative bg-gray-800 w-96 p-6 rounded-lg shadow-lg text-center">
+                <!-- Tombol silang -->
+                <button
+                    @click="showPendingModal = false"
+                    class="absolute top-2 right-2 text-white hover:text-red-400 text-xl font-bold focus:outline-none"
+                    aria-label="Tutup"
+                >
+                    &times;
+                </button>
+
                 <h3 class="text-xl font-bold mb-4 text-blue-400">Menunggu Balasan Admin</h3>
                 <p class="text-white">Permintaan peminjaman Anda sedang diproses oleh admin.</p>
             </div>
         </div>
     </template>
+
 
     <!-- Modal Hasil Booking (Accepted/Rejected) untuk user -->
     <template x-if="bookingResult !== ''">
@@ -130,7 +140,7 @@
     </template>
 
     <!-- Modal Restore: Untuk Admin mengembalikan status lab menjadi Available -->
-    <div 
+    <div
         class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50"
         x-show="showRestoreModal"
         x-transition
@@ -150,7 +160,7 @@
 
 
     @if(session('toast'))
-        <div 
+        <div
             class="fixed bottom-4 right-4 bg-{{ session('toast.type') === 'success' ? 'green' : 'red' }}-500 text-white px-6 py-3 rounded shadow-lg z-50 transition"
             x-data="{ show: true }"
             x-init="setTimeout(() => show = false, 3000)"
